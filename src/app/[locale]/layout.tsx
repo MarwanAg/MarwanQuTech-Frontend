@@ -49,7 +49,9 @@ export default async function LocaleLayout({ children, params }: Props) {
 
   return (
     <html lang={locale} dir={dir(locale)}>
-      <body className="min-h-dvh antialiased">
+      {/* Browser extensions (password managers, WOT, Grammarly…) add attributes to <body> before React
+          loads; this only silences that attribute mismatch on <body>, not on its children. */}
+      <body className="min-h-dvh antialiased" suppressHydrationWarning>
         <SiteHeader locale={locale} t={t} />
         <main id="content" className="mx-auto max-w-[1120px] px-5">
           {children}
