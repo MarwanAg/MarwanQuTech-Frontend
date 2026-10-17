@@ -32,5 +32,5 @@ function preferredLocale(request: NextRequest): Locale {
 
 export const config = {
   // Skip Next internals, the revalidation route, and any file with an extension (sitemap.xml, robots.txt, icons).
-  matcher: ["/((?!_next|api|.*\\..*).*)"],
+  matcher: ["/((?!_next|api|admin|.*\\..*).*)"],
 };
