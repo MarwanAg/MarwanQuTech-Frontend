@@ -7,12 +7,16 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const base = siteUrl();
   const data = await safely(api.sitemap(), null);
 
-  const staticPages: MetadataRoute.Sitemap = (["home", "projects", "blog", "contact"] as const).map((page) => ({
-    url: `${base}${paths[page]("ar")}`,
-    changeFrequency: page === "contact" ? "yearly" : "weekly",
-    priority: page === "home" ? 1 : 0.7,
-    alternates: { languages: { ar: `${base}${paths[page]("ar")}`, en: `${base}${paths[page]("en")}` } },
-  }));
+  // Every language version is its own <url>, each listing both alternates (Google's hreflang rule).
+  const staticPages: MetadataRoute.Sitemap = (["home", "projects", "blog", "contact"] as const).flatMap((page) => {
+    const languages = { ar: `${base}${paths[page]("ar")}`, en: `${base}${paths[page]("en")}` };
+    return [languages.ar, languages.en].map((url) => ({
+      url,
+      changeFrequency: page === "contact" ? ("yearly" as const) : ("weekly" as const),
+      priority: page === "home" ? 1 : 0.7,
+      alternates: { languages },
+    }));
+  });
 
   const content: MetadataRoute.Sitemap = (data?.entries ?? []).flatMap((entry) => {
     const build = entry.type === "Project" ? paths.project : paths.article;
