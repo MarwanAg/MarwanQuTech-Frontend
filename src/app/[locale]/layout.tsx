@@ -13,7 +13,8 @@ import { getDictionary } from "@/lib/dictionary";
 import { dir, isLocale, locales } from "@/lib/i18n";
 import { siteUrl } from "@/lib/urls";
 
-export const dynamicParams = false;
+// No `dynamicParams = false` here: child segments inherit it, which made every project/article page
+// (slugs come from the API at runtime) a 404 in production. Unknown locales are rejected by notFound() below.
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
