@@ -7,15 +7,15 @@ import { NavLink } from "./NavLink";
 
 export function SiteHeader({ locale, t }: { locale: Locale; t: Dictionary }) {
   return (
-    <header className="border-b border-line">
+    <header>
       <a
         href="#content"
-        className="sr-only focus:not-sr-only focus:absolute focus:start-4 focus:top-4 focus:rounded focus:bg-accent focus:px-3 focus:py-2 focus:text-accent-ink"
+        className="sr-only focus:not-sr-only focus:absolute focus:start-4 focus:top-4 focus:z-10 focus:rounded-md focus:bg-accent focus:px-3 focus:py-2 focus:text-accent-ink"
       >
         {t.nav.skipToContent}
       </a>
-      <div className="mx-auto flex max-w-[1120px] flex-wrap items-center justify-between gap-x-8 gap-y-3 px-5 py-4">
-        <Link href={paths.home(locale)} className="font-mono text-[1.05rem] font-medium tracking-tight" dir="ltr">
+      <div className="mx-auto flex max-w-[1180px] flex-wrap items-center justify-between gap-x-8 gap-y-3 px-5 py-5">
+        <Link href={paths.home(locale)} className="font-display text-[1.2rem] font-semibold tracking-tight" dir="ltr">
           Marwan<span className="text-accent">Qu</span>Tech
         </Link>
         <nav aria-label={t.nav.home} className="flex items-center gap-1 sm:gap-2">

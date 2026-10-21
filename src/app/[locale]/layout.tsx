@@ -1,3 +1,4 @@
+import "@fontsource-variable/alexandria";
 import "@fontsource/ibm-plex-sans-arabic/400.css";
 import "@fontsource/ibm-plex-sans-arabic/500.css";
 import "@fontsource/ibm-plex-sans-arabic/600.css";
@@ -37,10 +38,8 @@ export async function generateMetadata({ params }: Omit<Props, "children">): Pro
 }
 
 export const viewport: Viewport = {
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#f4f6f7" },
-    { media: "(prefers-color-scheme: dark)", color: "#121a21" },
-  ],
+  themeColor: "#010736",
+  colorScheme: "dark",
 };
 
 export default async function LocaleLayout({ children, params }: Props) {
@@ -54,10 +53,10 @@ export default async function LocaleLayout({ children, params }: Props) {
           loads; this only silences that attribute mismatch on <body>, not on its children. */}
       <body className="min-h-dvh antialiased" suppressHydrationWarning>
         <SiteHeader locale={locale} t={t} />
-        <main id="content" className="mx-auto max-w-[1120px] px-5">
+        <main id="content" className="mx-auto max-w-[1180px] px-5">
           {children}
         </main>
-        <SiteFooter t={t} />
+        <SiteFooter locale={locale} t={t} />
       </body>
     </html>
   );

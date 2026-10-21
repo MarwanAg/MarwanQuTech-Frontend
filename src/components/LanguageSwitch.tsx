@@ -21,7 +21,7 @@ export function LanguageSwitch({ locale, label }: { locale: Locale; label: strin
       onClick={() => {
         document.cookie = `locale=${target}; path=/; max-age=31536000; samesite=lax`;
       }}
-      className="rounded-full border border-line px-3 py-1 text-sm text-slate transition-colors hover:border-accent hover:text-accent"
+      className="rounded-full border border-line px-3.5 py-1 text-sm text-slate transition-colors hover:border-accent hover:text-accent"
     >
       {label}
     </Link>

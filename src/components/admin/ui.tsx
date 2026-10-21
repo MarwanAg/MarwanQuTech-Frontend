@@ -36,7 +36,7 @@ export function Field({
         )}
       </div>
       <div className="mt-1.5">{children}</div>
-      {error && <p className="mt-1 text-sm text-[#b45309] dark:text-[#fdba74]">{error}</p>}
+      {error && <p className="mt-1 text-sm text-[#fdba74]">{error}</p>}
     </div>
   );
 }
@@ -52,7 +52,7 @@ export function Button({ variant = "secondary", className = "", ...props }: Butt
   const styles = {
     primary: "bg-accent text-accent-ink hover:opacity-90",
     secondary: "border border-line hover:border-accent hover:text-accent",
-    danger: "border border-[#b45309]/50 text-[#b45309] hover:bg-[#b45309]/10 dark:text-[#fdba74]",
+    danger: "border border-[#b45309]/50 text-[#fdba74] hover:bg-[#b45309]/10",
   }[variant];
   return (
     <button
@@ -72,7 +72,7 @@ export function Notice({ notice }: { notice: { kind: "ok" | "error"; text: strin
       className={`rounded-md px-4 py-2.5 text-sm ${
         notice.kind === "ok"
           ? "border border-accent/30 bg-accent/10 text-ink"
-          : "border border-[#b45309]/40 bg-[#b45309]/10 text-[#9a3412] dark:text-[#fdba74]"
+          : "border border-[#b45309]/40 bg-[#b45309]/10 text-[#fdba74]"
       }`}
     >
       {notice.text}

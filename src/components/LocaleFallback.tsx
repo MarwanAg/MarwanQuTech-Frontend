@@ -19,7 +19,7 @@ export function LocaleFallback({ kind, onRetry }: { kind: "notFound" | "error"; 
       <p className="mt-3 text-slate">{copy.body}</p>
       <div className="mt-8 flex gap-3">
         {onRetry && (
-          <button type="button" onClick={onRetry} className="rounded-md bg-accent px-4 py-2 font-medium text-accent-ink hover:opacity-90">
+          <button type="button" onClick={onRetry} className="rounded-full bg-accent px-5 py-2 font-medium text-accent-ink transition-colors hover:bg-ink">
             {t.error.retry}
           </button>
         )}

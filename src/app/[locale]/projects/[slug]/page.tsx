@@ -71,7 +71,7 @@ export default async function ProjectPage({ params }: Props) {
 
         <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-3 text-sm">
           {project.liveUrl && (
-            <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="rounded-md bg-accent px-4 py-2 font-medium text-accent-ink hover:opacity-90">
+            <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="rounded-full bg-accent px-5 py-2 font-medium text-accent-ink transition-colors hover:bg-ink">
               {t.projects.live}
             </a>
           )}

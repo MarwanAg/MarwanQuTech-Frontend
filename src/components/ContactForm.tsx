@@ -93,7 +93,7 @@ export function ContactForm({ language, labels, services, errors }: Props) {
         <button
           type="button"
           onClick={() => setStatus({ kind: "idle" })}
-          className="mt-5 rounded-md border border-line px-4 py-2 font-medium hover:border-accent hover:text-accent"
+          className="mt-5 rounded-full border border-ink/25 px-5 py-2 font-medium transition-colors hover:border-accent hover:text-accent"
         >
           {labels.sendAnother}
         </button>
@@ -137,7 +137,7 @@ export function ContactForm({ language, labels, services, errors }: Props) {
       </div>
 
       {status.kind === "error" && (
-        <p role="alert" className="rounded-md border border-[#c2410c]/40 bg-[#c2410c]/10 px-4 py-3 text-[#9a3412] dark:text-[#fdba74]">
+        <p role="alert" className="rounded-md border border-[#c2410c]/40 bg-[#c2410c]/10 px-4 py-3 text-[#fdba74]">
           {status.message}
         </p>
       )}
@@ -146,7 +146,7 @@ export function ContactForm({ language, labels, services, errors }: Props) {
         <button
           type="submit"
           disabled={sending}
-          className="rounded-md bg-accent px-6 py-2.5 font-medium text-accent-ink transition-opacity hover:opacity-90 disabled:opacity-60"
+          className="rounded-full bg-accent px-7 py-3 font-medium text-accent-ink transition-colors hover:bg-ink disabled:opacity-60"
         >
           {sending ? labels.sending : labels.submit}
         </button>
@@ -176,7 +176,7 @@ function Field({
       </label>
       <div className="mt-1.5">{children}</div>
       {error && (
-        <p id={`${id}-error`} className="mt-1.5 text-sm text-[#b45309] dark:text-[#fdba74]">
+        <p id={`${id}-error`} className="mt-1.5 text-sm text-[#fdba74]">
           {error}
         </p>
       )}
@@ -185,6 +185,6 @@ function Field({
 }
 
 const input = (error?: string) =>
-  `w-full rounded-md border bg-surface px-3 py-2 focus:outline-none focus:ring-2 focus:ring-accent/30 ${
+  `w-full rounded-lg border bg-deep/40 px-3.5 py-2.5 focus:outline-none focus:ring-2 focus:ring-accent/30 ${
     error ? "border-[#b45309]" : "border-line focus:border-accent"
   }`;

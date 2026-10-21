@@ -1,39 +1,30 @@
 @import "tailwindcss";
 
 /* ── Tokens ─────────────────────────────────────────────────────────────
-   Calm, cool technical palette. Amber is reserved for the queue's
-   "latest" signal and nothing else. */
+   One theme, built on the brand palette: deep navy grounds (#010736, #0D1C42),
+   a working blue (#22396F) for structure, and cream (#FCF1D0) for text.
+   A deeper sand (--accent) is the only "action" color: buttons, links, the queue's
+   open slot and its newest item. */
 :root {
-  --paper: #f4f6f7;
-  --surface: #ffffff;
-  --ink: #18222c;
-  --slate: #5a6977;
-  --line: #d8dfe4;
-  --accent: #1d6b85;
-  --accent-ink: #ffffff;
-  --signal: #d49a1f;
-  --code-bg: #eef2f4;
-  color-scheme: light;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --paper: #121a21;
-    --surface: #18222b;
-    --ink: #e4eaee;
-    --slate: #93a2af;
-    --line: #2a3742;
-    --accent: #5fb1cc;
-    --accent-ink: #0d1a20;
-    --signal: #e6b04a;
-    --code-bg: #0f171d;
-    color-scheme: dark;
-  }
+  --deep: #010736;
+  --paper: #0d1c42;
+  --surface: #13254f;
+  --brand: #22396f;
+  --ink: #fcf1d0;
+  --slate: #b4b0a3;
+  --line: #2b3a5c;
+  --accent: #ebcb82;
+  --accent-ink: #010736;
+  --signal: #ebcb82;
+  --code-bg: #0a1638;
+  color-scheme: dark;
 }
 
 @theme inline {
+  --color-deep: var(--deep);
   --color-paper: var(--paper);
   --color-surface: var(--surface);
+  --color-brand: var(--brand);
   --color-ink: var(--ink);
   --color-slate: var(--slate);
   --color-line: var(--line);
@@ -42,39 +33,58 @@
   --color-signal: var(--signal);
   --color-code: var(--code-bg);
   --font-sans: "IBM Plex Sans Arabic", system-ui, sans-serif;
+  --font-display: "Alexandria Variable", "IBM Plex Sans Arabic", system-ui, sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, monospace;
 }
 
 html {
-  background: var(--paper);
+  background-color: var(--paper);
+  /* Night falls from the top: the deepest navy behind the header and hero, a cool blue glow
+     on the start side, settling into the page navy further down. */
+  background-image:
+    radial-gradient(900px 520px at 88% -8%, color-mix(in srgb, var(--brand) 70%, transparent), transparent 70%),
+    linear-gradient(180deg, var(--deep) 0, var(--paper) 760px);
+  background-repeat: no-repeat;
   color: var(--ink);
   -webkit-text-size-adjust: 100%;
+}
+html[dir="ltr"] {
+  background-image:
+    radial-gradient(900px 520px at 12% -8%, color-mix(in srgb, var(--brand) 70%, transparent), transparent 70%),
+    linear-gradient(180deg, var(--deep) 0, var(--paper) 760px);
 }
 
 body {
   font-family: var(--font-sans);
   font-size: 1.0625rem;
-  line-height: 1.75;
+  line-height: 1.8;
   text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  text-wrap: balance;
 }
 
 :focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 3px;
-  border-radius: 2px;
+  border-radius: 4px;
 }
 
 ::selection {
-  background: color-mix(in srgb, var(--accent) 25%, transparent);
+  background: color-mix(in srgb, var(--accent) 35%, transparent);
+  color: var(--ink);
 }
 
 /* The only ambient motion on the site: the newest item in the queue. */
 @keyframes signal-pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.35; }
+  0%, 100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--signal) 55%, transparent); }
+  70% { box-shadow: 0 0 0 7px transparent; }
 }
 .signal-dot {
-  animation: signal-pulse 1.8s ease-in-out infinite;
+  animation: signal-pulse 2.2s ease-out infinite;
 }
 @media (prefers-reduced-motion: reduce) {
   .signal-dot { animation: none; }
@@ -93,11 +103,11 @@ body {
 .prose ol { list-style: decimal; padding-inline-start: 1.4em; }
 .prose li + li { margin-top: 0.35em; }
 .prose blockquote {
-  border-inline-start: 3px solid var(--line);
+  border-inline-start: 3px solid var(--accent);
   padding-inline-start: 1em;
   color: var(--slate);
 }
-.prose img { border-radius: 6px; border: 1px solid var(--line); }
+.prose img { border-radius: 10px; border: 1px solid var(--line); }
 .prose hr { border: 0; border-top: 1px solid var(--line); margin-block: 2.5em; }
 .prose table { width: 100%; border-collapse: collapse; font-size: 0.95rem; display: block; overflow-x: auto; }
 .prose th, .prose td { border: 1px solid var(--line); padding: 0.45em 0.75em; text-align: start; }
@@ -122,15 +132,9 @@ body {
   text-align: left;
 }
 
-/* highlight.js — muted token colors that work on both themes */
-.hljs-keyword, .hljs-selector-tag, .hljs-built_in { color: #1d6b85; }
-.hljs-string, .hljs-attr { color: #6b7d2a; }
+/* highlight.js — token colors tuned for the navy code blocks */
+.hljs-keyword, .hljs-selector-tag, .hljs-built_in { color: #8fb4ff; }
+.hljs-string, .hljs-attr { color: #c9dc8f; }
 .hljs-comment, .hljs-quote { color: var(--slate); font-style: italic; }
-.hljs-number, .hljs-literal { color: #9b5b12; }
-.hljs-title, .hljs-type, .hljs-class .hljs-title { color: #6a3fa0; }
-@media (prefers-color-scheme: dark) {
-  .hljs-keyword, .hljs-selector-tag, .hljs-built_in { color: #6fc0db; }
-  .hljs-string, .hljs-attr { color: #b5c87a; }
-  .hljs-number, .hljs-literal { color: #e2a35b; }
-  .hljs-title, .hljs-type, .hljs-class .hljs-title { color: #c3a4ea; }
-}
+.hljs-number, .hljs-literal { color: #ebcb82; }
+.hljs-title, .hljs-type, .hljs-class .hljs-title { color: #d6b8ff; }

@@ -7,9 +7,9 @@ import { paths } from "@/lib/urls";
 /** Articles read as a list (title first, meta below), not as image cards. */
 export function ArticleRow({ article, locale, t }: { article: ArticleCard; locale: Locale; t: Dictionary }) {
   return (
-    <article className="py-6">
+    <article className="py-7">
       <h3 className="text-xl font-semibold leading-snug">
-        <Link href={paths.article(locale, article.slug)} className="hover:text-accent">
+        <Link href={paths.article(locale, article.slug)} className="transition-colors hover:text-accent">
           {article.title}
         </Link>
       </h3>
