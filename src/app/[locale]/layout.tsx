@@ -6,6 +6,7 @@ import "@fontsource/ibm-plex-mono/400.css";
 import "@fontsource/ibm-plex-mono/500.css";
 import "../globals.css";
 
+import { GoogleAnalytics } from "@next/third-parties/google";
 import type { Metadata, Viewport } from "next";
 import { notFound } from "next/navigation";
 import { SiteFooter } from "@/components/SiteFooter";
@@ -42,6 +43,8 @@ export const viewport: Viewport = {
   colorScheme: "dark",
 };
 
+const gaId = process.env.NEXT_PUBLIC_GA_ID;
+
 export default async function LocaleLayout({ children, params }: Props) {
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
@@ -58,6 +61,9 @@ export default async function LocaleLayout({ children, params }: Props) {
         </main>
         <SiteFooter locale={locale} t={t} />
       </body>
+      {/* Google Analytics 4 on the public site only (the /admin dashboard has its own layout).
+          Loads after the page is interactive, so it doesn't slow the first paint. */}
+      {gaId && <GoogleAnalytics gaId={gaId} />}
     </html>
   );
 }
