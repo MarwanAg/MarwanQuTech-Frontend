@@ -21,6 +21,7 @@ export function SiteHeader({ locale, t }: { locale: Locale; t: Dictionary }) {
         <nav aria-label={t.nav.home} className="flex items-center gap-1 sm:gap-2">
           <NavLink href={paths.projects(locale)}>{t.nav.projects}</NavLink>
           <NavLink href={paths.blog(locale)}>{t.nav.blog}</NavLink>
+          <NavLink href={paths.about(locale)}>{t.nav.about}</NavLink>
           <NavLink href={paths.contact(locale)}>{t.nav.contact}</NavLink>
           <span className="ms-2">
             <LanguageSwitch locale={locale} label={t.nav.switchLanguage} />

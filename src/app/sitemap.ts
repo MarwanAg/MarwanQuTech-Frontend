@@ -8,11 +8,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const data = await safely(api.sitemap(), null);
 
   // Every language version is its own <url>, each listing both alternates (Google's hreflang rule).
-  const staticPages: MetadataRoute.Sitemap = (["home", "projects", "blog", "contact"] as const).flatMap((page) => {
+  const staticPages: MetadataRoute.Sitemap = (["home", "projects", "blog", "about", "contact"] as const).flatMap((page) => {
     const languages = { ar: `${base}${paths[page]("ar")}`, en: `${base}${paths[page]("en")}` };
     return [languages.ar, languages.en].map((url) => ({
       url,
-      changeFrequency: page === "contact" ? ("yearly" as const) : ("weekly" as const),
+      changeFrequency: page === "contact" || page === "about" ? ("yearly" as const) : ("weekly" as const),
       priority: page === "home" ? 1 : 0.7,
       alternates: { languages },
     }));

@@ -16,5 +16,6 @@ export const paths = {
   project: (l: Locale, slug: string) => `/${l}/projects/${encodeURIComponent(slug)}`,
   blog: (l: Locale) => `/${l}/blog`,
   article: (l: Locale, slug: string) => `/${l}/blog/${encodeURIComponent(slug)}`,
+  about: (l: Locale) => `/${l}/about`,
   contact: (l: Locale) => `/${l}/contact`,
 };

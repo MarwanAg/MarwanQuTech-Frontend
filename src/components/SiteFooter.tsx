@@ -16,6 +16,7 @@ export function SiteFooter({ locale, t }: { locale: Locale; t: Dictionary }) {
         <nav aria-label={t.nav.home} className="flex flex-wrap gap-x-6 gap-y-2 text-sm">
           <Link href={paths.projects(locale)} className="text-slate hover:text-ink">{t.nav.projects}</Link>
           <Link href={paths.blog(locale)} className="text-slate hover:text-ink">{t.nav.blog}</Link>
+          <Link href={paths.about(locale)} className="text-slate hover:text-ink">{t.nav.about}</Link>
           <Link href={paths.contact(locale)} className="text-slate hover:text-ink">{t.nav.contact}</Link>
         </nav>
       </div>
