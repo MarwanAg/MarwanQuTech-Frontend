@@ -84,7 +84,7 @@ export function ProjectForm({ project, onSaved }: { project?: ProjectAdmin; onSa
             <Field label="الرابط (slug)" hint="اتركه فارغاً ليُولَّد من العنوان" htmlFor="slugAr" error={errors.SlugAr}>
               <input id="slugAr" value={values.slugAr} onChange={text("slugAr")} className={inputClass(errors.SlugAr)} />
             </Field>
-            <Field label="الوصف (Markdown)" htmlFor="descriptionAr" error={errors.DescriptionAr}>
+            <Field label="الوصف" htmlFor="descriptionAr" error={errors.DescriptionAr}>
               <MarkdownEditor id="descriptionAr" dir="rtl" value={values.descriptionAr} onChange={set("descriptionAr")} error={errors.DescriptionAr} />
             </Field>
           </>
@@ -100,7 +100,7 @@ export function ProjectForm({ project, onSaved }: { project?: ProjectAdmin; onSa
             <Field label="Slug" hint="فارغ = من العنوان" htmlFor="slugEn" error={errors.SlugEn}>
               <input id="slugEn" dir="ltr" value={values.slugEn} onChange={text("slugEn")} className={inputClass(errors.SlugEn)} />
             </Field>
-            <Field label="Description (Markdown)" htmlFor="descriptionEn" error={errors.DescriptionEn}>
+            <Field label="Description" htmlFor="descriptionEn" error={errors.DescriptionEn}>
               <MarkdownEditor id="descriptionEn" dir="ltr" value={values.descriptionEn} onChange={set("descriptionEn")} error={errors.DescriptionEn} />
             </Field>
           </>

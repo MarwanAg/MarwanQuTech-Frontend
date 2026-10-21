@@ -75,7 +75,7 @@ export function ArticleForm({ article, onSaved }: { article?: ArticleAdmin; onSa
             <Field label="الرابط (slug)" hint="فارغ = من العنوان" htmlFor="slugAr" error={errors.SlugAr}>
               <input id="slugAr" value={values.slugAr} onChange={text("slugAr")} className={inputClass(errors.SlugAr)} />
             </Field>
-            <Field label="المحتوى (Markdown)" hint={`${words(values.contentAr)} كلمة`} htmlFor="contentAr" error={errors.ContentAr}>
+            <Field label="المحتوى" hint={`${words(values.contentAr)} كلمة`} htmlFor="contentAr" error={errors.ContentAr}>
               <MarkdownEditor id="contentAr" dir="rtl" rows={24} value={values.contentAr} onChange={set("contentAr")} error={errors.ContentAr} />
             </Field>
           </>
@@ -91,7 +91,7 @@ export function ArticleForm({ article, onSaved }: { article?: ArticleAdmin; onSa
             <Field label="Slug" hint="فارغ = من العنوان" htmlFor="slugEn" error={errors.SlugEn}>
               <input id="slugEn" dir="ltr" value={values.slugEn} onChange={text("slugEn")} className={inputClass(errors.SlugEn)} />
             </Field>
-            <Field label="Content (Markdown)" hint={`${words(values.contentEn)} words`} htmlFor="contentEn" error={errors.ContentEn}>
+            <Field label="Content" hint={`${words(values.contentEn)} words`} htmlFor="contentEn" error={errors.ContentEn}>
               <MarkdownEditor id="contentEn" dir="ltr" rows={24} value={values.contentEn} onChange={set("contentEn")} error={errors.ContentEn} />
             </Field>
           </>
