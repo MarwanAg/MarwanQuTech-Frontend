@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { toJsonLd } from "@/lib/jsonLd";
 import { ArticleRow } from "@/components/ArticleRow";
 import { ProjectTile } from "@/components/ProjectTile";
 import { Queue, type QueueItem } from "@/components/Queue";
@@ -184,5 +185,5 @@ function PersonJsonLd({ locale, name }: { locale: Locale; name: string }) {
     jobTitle: locale === "ar" ? "مطوّر أنظمة ويب" : "Web systems developer",
     address: { "@type": "PostalAddress", addressLocality: "Aqaba", addressCountry: "JO" },
   };
-  return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }} />;
+  return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: toJsonLd(data) }} />;
 }

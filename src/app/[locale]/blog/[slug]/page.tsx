@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { toJsonLd } from "@/lib/jsonLd";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { Markdown } from "@/components/Markdown";
@@ -81,7 +82,7 @@ export default async function ArticlePage({ params }: Props) {
   return (
     <article className="pb-8">
       <ViewTracker articleId={article.id} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: toJsonLd(jsonLd) }} />
 
       <header className="max-w-[70ch] py-12 md:py-16">
         <Link href={paths.blog(locale)} className="text-sm text-slate hover:text-accent">

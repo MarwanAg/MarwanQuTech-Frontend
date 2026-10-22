@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { toJsonLd } from "@/lib/jsonLd";
 import Link from "next/link";
 import { about, socialLinks, type TimelineEntry } from "@/content/profile";
 import { getDictionary } from "@/lib/dictionary";
@@ -38,7 +39,7 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
 
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: toJsonLd(jsonLd) }} />
 
       <section className="grid gap-12 pt-12 pb-16 md:grid-cols-[minmax(0,1.5fr)_minmax(0,0.8fr)] md:pt-20">
         <div>
