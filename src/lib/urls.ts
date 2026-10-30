@@ -12,10 +12,16 @@ export function mediaUrl(path: string | null | undefined) {
 
 export const paths = {
   home: (l: Locale) => `/${l}`,
+  solutions: (l: Locale) => `/${l}/solutions`,
   projects: (l: Locale) => `/${l}/projects`,
   project: (l: Locale, slug: string) => `/${l}/projects/${encodeURIComponent(slug)}`,
   blog: (l: Locale) => `/${l}/blog`,
   article: (l: Locale, slug: string) => `/${l}/blog/${encodeURIComponent(slug)}`,
   about: (l: Locale) => `/${l}/about`,
   contact: (l: Locale) => `/${l}/contact`,
+  /** Contact page with the form pre-filled: ?service=…&problem=…&offer=… */
+  contactWith: (l: Locale, preset: { service?: string; problem?: string; offer?: string }) => {
+    const query = new URLSearchParams(Object.entries(preset).filter((e): e is [string, string] => !!e[1])).toString();
+    return `/${l}/contact${query ? `?${query}` : ""}`;
+  },
 };

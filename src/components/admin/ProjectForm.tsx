@@ -85,7 +85,7 @@ export function ProjectForm({ project, onSaved }: { project?: ProjectAdmin; onSa
               <input id="slugAr" value={values.slugAr} onChange={text("slugAr")} className={inputClass(errors.SlugAr)} />
             </Field>
             <Field label="الوصف" htmlFor="descriptionAr" error={errors.DescriptionAr}>
-              <MarkdownEditor id="descriptionAr" dir="rtl" value={values.descriptionAr} onChange={set("descriptionAr")} error={errors.DescriptionAr} />
+              <MarkdownEditor id="descriptionAr" dir="rtl" value={values.descriptionAr} onChange={set("descriptionAr")} error={errors.DescriptionAr} template={{ label: "قالب دراسة حالة", text: CASE_STUDY_AR }} />
             </Field>
           </>
         }
@@ -101,7 +101,7 @@ export function ProjectForm({ project, onSaved }: { project?: ProjectAdmin; onSa
               <input id="slugEn" dir="ltr" value={values.slugEn} onChange={text("slugEn")} className={inputClass(errors.SlugEn)} />
             </Field>
             <Field label="Description" htmlFor="descriptionEn" error={errors.DescriptionEn}>
-              <MarkdownEditor id="descriptionEn" dir="ltr" value={values.descriptionEn} onChange={set("descriptionEn")} error={errors.DescriptionEn} />
+              <MarkdownEditor id="descriptionEn" dir="ltr" value={values.descriptionEn} onChange={set("descriptionEn")} error={errors.DescriptionEn} template={{ label: "Case study outline", text: CASE_STUDY_EN }} />
             </Field>
           </>
         }
@@ -133,3 +133,41 @@ export function ProjectForm({ project, onSaved }: { project?: ProjectAdmin; onSa
     </form>
   );
 }
+
+/**
+ * Case-study outline for project descriptions. Every heading is a question the visitor has;
+ * replace the hints with real facts and delete any section that doesn't apply (no invented numbers).
+ */
+const CASE_STUDY_AR = `## المشكلة
+ما الذي كان يحدث قبل المشروع؟ من كان يعاني منه، وماذا كان يكلّفه من وقت أو مال؟
+
+## الحل
+ما الذي بُني؟ اذكر أهم ما يستطيع المستخدم فعله الآن.
+
+## التقنيات المستخدمة
+- 
+- 
+
+## صور من النظام
+أضف الصور من قسم معرض الصور أسفل الصفحة.
+
+## النتيجة وما تعلّمته
+ما الذي تغيّر بعد التسليم؟ وإن كان المشروع تجريبياً، فما الذي أثبته أو تعلّمته منه؟
+`;
+
+const CASE_STUDY_EN = `## The problem
+What was happening before the project? Who was affected, and what did it cost them in time or money?
+
+## The solution
+What was built? List the most important things users can do now.
+
+## Technologies used
+- 
+- 
+
+## Screens from the system
+Add screenshots in the gallery section below.
+
+## Result and what I learned
+What changed after delivery? If it's a demo project, what did it prove or teach you?
+`;

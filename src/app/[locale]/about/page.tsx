@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { toJsonLd } from "@/lib/jsonLd";
-import Link from "next/link";
+import { CtaBand } from "@/components/SectionHeading";
 import { about, socialLinks, type TimelineEntry } from "@/content/profile";
 import { getDictionary } from "@/lib/dictionary";
 import { isLocale } from "@/lib/i18n";
@@ -82,23 +82,12 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
       {content.experience.length > 0 && <Timeline id="experience" title={t.about.experience} entries={content.experience} />}
       {content.education.length > 0 && <Timeline id="education" title={t.about.education} entries={content.education} />}
 
-      <section
-        aria-labelledby="about-cta"
-        className="mt-10 grid gap-8 rounded-3xl border border-line bg-[linear-gradient(135deg,var(--brand),var(--paper)_62%,var(--deep))] px-7 py-12 sm:px-12 md:grid-cols-[1fr_auto] md:items-center"
-      >
-        <div>
-          <h2 id="about-cta" className="text-[1.7rem] leading-[1.45] sm:text-[2.1rem]">
-            {t.about.ctaTitle}
-          </h2>
-          <p className="mt-4 max-w-[56ch] text-slate">{t.about.ctaBody}</p>
-        </div>
-        <Link
-          href={paths.contact(locale)}
-          className="inline-flex items-center justify-center rounded-full bg-accent px-7 py-3 font-medium text-accent-ink transition-colors hover:bg-ink"
-        >
-          {t.about.ctaAction}
-        </Link>
-      </section>
+      <CtaBand
+        id="about-cta"
+        title={t.about.ctaTitle}
+        body={t.about.ctaBody}
+        action={{ href: paths.contact(locale), label: t.about.ctaAction }}
+      />
     </>
   );
 }

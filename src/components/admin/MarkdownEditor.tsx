@@ -15,6 +15,7 @@ export function MarkdownEditor({
   dir,
   rows = 18,
   error,
+  template,
 }: {
   id: string;
   value: string;
@@ -22,6 +23,8 @@ export function MarkdownEditor({
   dir: "rtl" | "ltr";
   rows?: number;
   error?: string;
+  /** Optional starter text (e.g. a case-study outline), inserted by its own toolbar button. */
+  template?: { label: string; text: string };
 }) {
   const [preview, setPreview] = useState(false);
   const ref = useRef<HTMLTextAreaElement>(null);
@@ -131,6 +134,17 @@ export function MarkdownEditor({
     replace(s, e, text, s + 1, s + 1 + label.length);
   }
 
+  function insertTemplate() {
+    if (!template) return;
+    const ta = ref.current!;
+    const current = ta.value;
+    // Empty field: the outline replaces nothing. Otherwise it goes at the end, after a blank line.
+    const start = current.trimEnd().length;
+    const lead = start === 0 ? "" : "\n\n";
+    const text = lead + template.text;
+    replace(start, current.length, text, start + lead.length, start + text.length);
+  }
+
   function onKeyDown(e: KeyboardEvent<HTMLTextAreaElement>) {
     if (!(e.ctrlKey || e.metaKey)) return;
     const key = e.key.toLowerCase();
@@ -177,6 +191,16 @@ export function MarkdownEditor({
           ))}
         </div>
 
+        {!preview && template && (
+          <button
+            type="button"
+            onMouseDown={(e) => e.preventDefault()}
+            onClick={insertTemplate}
+            className="rounded-full border border-accent/50 px-3 py-1 text-sm text-accent transition-colors hover:bg-accent/10"
+          >
+            {template.label}
+          </button>
+        )}
         {!preview && (
           <div role="toolbar" aria-label={ar ? "أدوات التنسيق" : "Formatting"} aria-controls={id} className="flex flex-wrap items-center gap-0.5" dir="ltr">
             {tools.map((tool) => (

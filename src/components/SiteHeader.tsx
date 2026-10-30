@@ -18,7 +18,8 @@ export function SiteHeader({ locale, t }: { locale: Locale; t: Dictionary }) {
         <Link href={paths.home(locale)} className="font-display text-[1.2rem] font-semibold tracking-tight" dir="ltr">
           Marwan<span className="text-accent">Qu</span>Tech
         </Link>
-        <nav aria-label={t.nav.home} className="flex items-center gap-1 sm:gap-2">
+        <nav aria-label={t.nav.home} className="-mx-2 flex flex-wrap items-center gap-x-0.5 gap-y-1 sm:mx-0 sm:gap-x-2">
+          <NavLink href={paths.solutions(locale)}>{t.nav.solutions}</NavLink>
           <NavLink href={paths.projects(locale)}>{t.nav.projects}</NavLink>
           <NavLink href={paths.blog(locale)}>{t.nav.blog}</NavLink>
           <NavLink href={paths.about(locale)}>{t.nav.about}</NavLink>

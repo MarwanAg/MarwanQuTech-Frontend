@@ -3,12 +3,21 @@
 import { useState } from "react";
 import { publicApiUrl } from "@/lib/urls";
 
+type Option = { value: string; label: string };
+
 type Labels = {
   name: string;
   email: string;
   phone: string;
   optional: string;
   service: string;
+  problem: string;
+  workflow: string;
+  size: string;
+  budget: string;
+  timeline: string;
+  choose: string;
+  offer: string;
   details: string;
   detailsHint: string;
   submit: string;
@@ -16,25 +25,65 @@ type Labels = {
   successTitle: string;
   successBody: string;
   sendAnother: string;
+  summaryHeading: string;
+  summaryLabels: { problem: string; workflow: string; size: string; budget: string; timeline: string; offer: string };
+};
+
+export type ContactChoices = {
+  services: Option[];
+  problems: Option[];
+  workflow: string[];
+  size: string[];
+  budget: string[];
+  timeline: string[];
+  offers: Option[];
 };
 
 type Props = {
   language: "Ar" | "En";
   labels: Labels;
-  services: { value: string; label: string }[];
+  choices: ContactChoices;
+  /** Values pre-selected from the link that opened the page (?service=…&problem=…&offer=…). */
+  preset: { service?: string; problem?: string; offer?: string };
   errors: { messages: Record<string, string>; fields: Record<string, string> };
 };
 
 type Status = { kind: "idle" } | { kind: "sending" } | { kind: "sent" } | { kind: "error"; message: string };
 
+const MAX_DETAILS = 4000;
+
 /**
  * Posts straight from the browser to the API, so the API's per-IP rate limit sees the
  * visitor's real address. Field errors come back as ProblemDetails `errors` keyed by
  * the C# property name (ClientName, Email, …) and are shown under each field.
+ *
+ * The qualifying questions (problem, current workflow, size, budget, timeline, offer) are sent as a
+ * short summary at the top of the request details, so they reach the dashboard and the notification
+ * e-mail without any change to the API.
  */
-export function ContactForm({ language, labels, services, errors }: Props) {
+export function ContactForm({ language, labels, choices, preset, errors }: Props) {
   const [status, setStatus] = useState<Status>({ kind: "idle" });
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
+
+  function details(data: FormData) {
+    const labelOf = (options: Option[], value: FormDataEntryValue | null) =>
+      options.find((o) => o.value === value)?.label ?? "";
+    const text = (key: string) => String(data.get(key) ?? "").trim();
+
+    const summary: [string, string][] = [
+      [labels.summaryLabels.offer, labelOf(choices.offers, data.get("offer"))],
+      [labels.summaryLabels.problem, labelOf(choices.problems, data.get("problem"))],
+      [labels.summaryLabels.workflow, text("workflow")],
+      [labels.summaryLabels.size, text("size")],
+      [labels.summaryLabels.budget, text("budget")],
+      [labels.summaryLabels.timeline, text("timeline")],
+    ];
+    const lines = summary.filter(([, value]) => value).map(([label, value]) => `- ${label}: ${value}`);
+    const message = text("details");
+
+    if (lines.length === 0) return message;
+    return `${labels.summaryHeading}\n${lines.join("\n")}${message ? `\n\n${message}` : ""}`.slice(0, MAX_DETAILS);
+  }
 
   async function submit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -53,7 +102,7 @@ export function ContactForm({ language, labels, services, errors }: Props) {
           email: data.get("email"),
           phone: data.get("phone") || null,
           serviceType: data.get("serviceType"),
-          details: data.get("details"),
+          details: details(data),
           language,
           website: data.get("website"), // honeypot
         }),
@@ -102,6 +151,7 @@ export function ContactForm({ language, labels, services, errors }: Props) {
   }
 
   const sending = status.kind === "sending";
+  const defaultService = choices.services.some((s) => s.value === preset.service) ? preset.service : choices.services[0]?.value;
 
   return (
     <form onSubmit={submit} noValidate className="grid gap-5">
@@ -116,8 +166,8 @@ export function ContactForm({ language, labels, services, errors }: Props) {
           <input id="phone" name="phone" type="tel" maxLength={30} autoComplete="tel" dir="ltr" className={input(fieldErrors.Phone)} />
         </Field>
         <Field id="serviceType" label={labels.service} error={fieldErrors.ServiceType}>
-          <select id="serviceType" name="serviceType" required defaultValue={services[0]?.value} className={input(fieldErrors.ServiceType)}>
-            {services.map((s) => (
+          <select id="serviceType" name="serviceType" required defaultValue={defaultService} className={input(fieldErrors.ServiceType)}>
+            {choices.services.map((s) => (
               <option key={s.value} value={s.value}>
                 {s.label}
               </option>
@@ -126,8 +176,17 @@ export function ContactForm({ language, labels, services, errors }: Props) {
         </Field>
       </div>
 
+      <fieldset className="grid gap-5 rounded-2xl border border-line p-5 sm:grid-cols-2">
+        <Choice id="problem" label={labels.problem} placeholder={labels.choose} options={choices.problems} defaultValue={preset.problem} />
+        <Choice id="workflow" label={labels.workflow} placeholder={labels.choose} options={plain(choices.workflow)} />
+        <Choice id="size" label={labels.size} placeholder={labels.choose} options={plain(choices.size)} />
+        <Choice id="timeline" label={labels.timeline} placeholder={labels.choose} options={plain(choices.timeline)} />
+        <Choice id="budget" label={labels.budget} hint={labels.optional} placeholder={labels.choose} options={plain(choices.budget)} />
+        <Choice id="offer" label={labels.offer} hint={labels.optional} placeholder={labels.choose} options={choices.offers} defaultValue={preset.offer} />
+      </fieldset>
+
       <Field id="details" label={labels.details} hint={labels.detailsHint} error={fieldErrors.Details}>
-        <textarea id="details" name="details" required minLength={10} maxLength={4000} rows={7} className={input(fieldErrors.Details)} />
+        <textarea id="details" name="details" maxLength={3500} rows={6} className={input(fieldErrors.Details)} />
       </Field>
 
       {/* Honeypot: invisible to people and screen readers; bots fill every field. */}
@@ -152,6 +211,38 @@ export function ContactForm({ language, labels, services, errors }: Props) {
         </button>
       </div>
     </form>
+  );
+}
+
+const plain = (values: string[]): Option[] => values.map((v) => ({ value: v, label: v }));
+
+function Choice({
+  id,
+  label,
+  hint,
+  placeholder,
+  options,
+  defaultValue,
+}: {
+  id: string;
+  label: string;
+  hint?: string;
+  placeholder: string;
+  options: Option[];
+  defaultValue?: string;
+}) {
+  const initial = options.some((o) => o.value === defaultValue) ? defaultValue : "";
+  return (
+    <Field id={id} label={label} hint={hint}>
+      <select id={id} name={id} defaultValue={initial} className={input()}>
+        <option value="">{placeholder}</option>
+        {options.map((o) => (
+          <option key={o.value} value={o.value}>
+            {o.label}
+          </option>
+        ))}
+      </select>
+    </Field>
   );
 }
 

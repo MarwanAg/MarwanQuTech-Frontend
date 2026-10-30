@@ -40,12 +40,12 @@ export function fieldErrors(error: unknown): Record<string, string> {
 }
 
 export const serviceLabels: Record<string, string> = {
-  WebDevelopment: "تطوير مواقع الويب",
-  ApiDevelopment: "تطوير واجهات API",
-  SystemArchitecture: "تصميم معمارية الأنظمة",
-  ProcessAutomation: "أتمتة العمليات",
-  Consulting: "استشارات تقنية",
-  Maintenance: "صيانة ودعم",
+  WebDevelopment: "الحضور الرقمي",
+  ApiDevelopment: "ربط الأنظمة",
+  SystemArchitecture: "أنظمة إدارة الأعمال",
+  ProcessAutomation: "الأتمتة وتنظيم البيانات",
+  Consulting: "استشارة أولية",
+  Maintenance: "الصيانة والدعم التقني",
   Other: "أخرى",
 };
 

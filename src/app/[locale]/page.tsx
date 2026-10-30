@@ -1,6 +1,10 @@
 import Link from "next/link";
 import { toJsonLd } from "@/lib/jsonLd";
 import { ArticleRow } from "@/components/ArticleRow";
+import { ProblemList } from "@/components/business/ProblemList";
+import { ServiceGroupList } from "@/components/business/ServiceGroupList";
+import { buttonPrimary, buttonSecondary, CtaBand, SectionHeading } from "@/components/SectionHeading";
+import { business } from "@/content/business";
 import { ProjectTile } from "@/components/ProjectTile";
 import { Queue, type QueueItem } from "@/components/Queue";
 import { api, emptyPage, safely, type ArticleCard, type ProjectCard } from "@/lib/api";
@@ -11,12 +15,11 @@ import { notFound } from "next/navigation";
 
 export const revalidate = 3600;
 
-const SERVICES = ["WebDevelopment", "ApiDevelopment", "SystemArchitecture", "ProcessAutomation", "Consulting", "Maintenance"] as const;
-
 export default async function HomePage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
   const t = getDictionary(locale);
+  const offer = business[locale];
 
   const [featured, latestProjects, latestArticles] = await Promise.all([
     safely(api.projects(locale, { featured: true, pageSize: 4 }), null),
@@ -44,16 +47,35 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
           <h1 className="mt-5 text-[2.15rem] leading-[1.4] sm:text-[2.7rem] lg:text-[3.15rem]">{t.home.headline}</h1>
           <p className="mt-6 max-w-[58ch] text-lg leading-[1.9] text-slate">{t.home.intro}</p>
           <div className="mt-10 flex flex-wrap gap-3">
-            <Link href={paths.contact(locale)} className={buttonPrimary}>
-              {t.home.ctaContact}
+            <Link href={paths.contactWith(locale, { service: "Consulting" })} className={buttonPrimary}>
+              {t.home.ctaConsult}
             </Link>
-            <Link href={paths.projects(locale)} className={buttonSecondary}>
-              {t.home.ctaProjects}
+            <Link href={paths.solutions(locale)} className={buttonSecondary}>
+              {t.home.ctaSolutions}
             </Link>
           </div>
         </div>
 
         <Queue items={buildQueue(latestProjects?.items ?? [], articles.items)} locale={locale} t={t} />
+      </section>
+
+      <section aria-labelledby="problems" className="py-16">
+        <SectionHeading id="problems" title={t.home.problemsTitle} intro={t.home.problemsIntro} />
+        <div className="mt-10">
+          <ProblemList problems={offer.problems} locale={locale} action={t.home.problemAction} />
+        </div>
+      </section>
+
+      <section aria-labelledby="services" className="py-16">
+        <SectionHeading
+          id="services"
+          title={t.home.servicesTitle}
+          intro={t.home.servicesIntro}
+          action={{ href: paths.solutions(locale), label: t.home.allSolutions }}
+        />
+        <div className="mt-12">
+          <ServiceGroupList groups={offer.groups} />
+        </div>
       </section>
 
       <section aria-labelledby="process" className="py-16">
@@ -72,18 +94,6 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
             </li>
           ))}
         </ol>
-      </section>
-
-      <section aria-labelledby="services" className="py-16">
-        <SectionHeading id="services" title={t.home.servicesTitle} intro={t.home.servicesIntro} />
-        <dl className="mt-12 grid gap-x-10 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
-          {SERVICES.map((key) => (
-            <div key={key} className="border-t border-line pt-6">
-              <dt className="font-display text-lg font-semibold">{t.services[key].title}</dt>
-              <dd className="mt-2 text-slate">{t.services[key].body}</dd>
-            </div>
-          ))}
-        </dl>
       </section>
 
       {projects.items.length > 0 && (
@@ -116,54 +126,13 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
         </section>
       )}
 
-      <section
-        aria-labelledby="cta"
-        className="mt-10 grid gap-8 rounded-3xl border border-line bg-[linear-gradient(135deg,var(--brand),var(--paper)_62%,var(--deep))] px-7 py-12 sm:px-12 md:grid-cols-[1fr_auto] md:items-center"
-      >
-        <div>
-          <h2 id="cta" className="max-w-[24ch] text-[1.7rem] leading-[1.45] sm:text-[2.1rem]">
-            {t.home.ctaBandTitle}
-          </h2>
-          <p className="mt-4 max-w-[56ch] text-slate">{t.home.ctaBandBody}</p>
-        </div>
-        <Link href={paths.contact(locale)} className={buttonPrimary}>
-          {t.home.ctaBandAction}
-        </Link>
-      </section>
+      <CtaBand
+        id="cta"
+        title={t.home.ctaBandTitle}
+        body={t.home.ctaBandBody}
+        action={{ href: paths.contact(locale), label: t.home.ctaBandAction }}
+      />
     </>
-  );
-}
-
-const buttonPrimary =
-  "inline-flex items-center justify-center rounded-full bg-accent px-7 py-3 font-medium text-accent-ink transition-colors hover:bg-ink";
-const buttonSecondary =
-  "inline-flex items-center justify-center rounded-full border border-ink/25 px-7 py-3 font-medium transition-colors hover:border-accent hover:text-accent";
-
-function SectionHeading({
-  id,
-  title,
-  intro,
-  action,
-}: {
-  id: string;
-  title: string;
-  intro?: string;
-  action?: { href: string; label: string };
-}) {
-  return (
-    <div className="flex flex-wrap items-end justify-between gap-x-8 gap-y-3">
-      <div>
-        <h2 id={id} className="text-[1.75rem] leading-snug sm:text-[2.15rem]">
-          {title}
-        </h2>
-        {intro && <p className="mt-3 max-w-[60ch] text-slate">{intro}</p>}
-      </div>
-      {action && (
-        <Link href={action.href} className="font-medium text-accent underline-offset-8 hover:underline">
-          {action.label}
-        </Link>
-      )}
-    </div>
   );
 }
 
