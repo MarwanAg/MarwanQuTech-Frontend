@@ -33,7 +33,7 @@ export default async function ProjectsPage({ params, searchParams }: Props) {
       {result.items.length === 0 ? (
         <p className="text-slate">{t.projects.empty}</p>
       ) : (
-        <div className="grid gap-x-10 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
+        <div data-stagger className="grid gap-x-10 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
           {result.items.map((project) => (
             <ProjectTile key={project.id} project={project} locale={locale} t={t} />
           ))}

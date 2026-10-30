@@ -17,7 +17,7 @@ export function SectionHeading({
   action?: { href: string; label: string };
 }) {
   return (
-    <div className="flex flex-wrap items-end justify-between gap-x-8 gap-y-3">
+    <div data-reveal className="flex flex-wrap items-end justify-between gap-x-8 gap-y-3">
       <div>
         <h2 id={id} className="text-[1.75rem] leading-snug sm:text-[2.15rem]">
           {title}
@@ -38,6 +38,7 @@ export function CtaBand({ id, title, body, action }: { id: string; title: string
   return (
     <section
       aria-labelledby={id}
+      data-reveal
       className="mt-10 grid gap-8 rounded-3xl border border-line bg-[linear-gradient(135deg,var(--brand),var(--paper)_62%,var(--deep))] px-7 py-12 sm:px-12 md:grid-cols-[1fr_auto] md:items-center"
     >
       <div>

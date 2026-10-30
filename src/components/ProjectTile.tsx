@@ -10,7 +10,7 @@ export function ProjectTile({ project, locale, t }: { project: ProjectCard; loca
   return (
     <article className="group">
       <Link href={paths.project(locale, project.slug)} className="block">
-        <div className="aspect-[16/10] overflow-hidden rounded-2xl border border-line bg-surface transition-colors group-hover:border-accent/60">
+        <div className="lift aspect-[16/10] overflow-hidden rounded-2xl border border-line bg-surface">
           {cover ? (
             // eslint-disable-next-line @next/next/no-img-element -- already resized WebP from the API
             <img src={cover} alt="" loading="lazy" className="size-full object-cover" />

@@ -6,9 +6,9 @@ import { paths } from "@/lib/urls";
 /** "Problem → solution" pairs. Each one opens the contact form with that problem already selected. */
 export function ProblemList({ problems, locale, action }: { problems: Problem[]; locale: Locale; action: string }) {
   return (
-    <ul className="grid gap-5 sm:grid-cols-2">
+    <ul data-stagger className="grid gap-5 sm:grid-cols-2">
       {problems.map((item) => (
-        <li key={item.key} className="flex flex-col rounded-2xl border border-line bg-surface/50 p-6 sm:p-7">
+        <li key={item.key} className="lift flex flex-col rounded-2xl border border-line bg-surface/50 p-6 sm:p-7">
           <h3 className="text-xl leading-snug">{item.problem}</h3>
           <p className="mt-3 flex-1 text-slate">{item.solution}</p>
           <Link

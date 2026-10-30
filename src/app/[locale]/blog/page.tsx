@@ -73,7 +73,7 @@ export default async function BlogPage({ params, searchParams }: Props) {
       {result.items.length === 0 ? (
         <p className="mt-10 text-slate">{search ? t.blog.noResults : t.blog.empty}</p>
       ) : (
-        <div className="mt-6 divide-y divide-line">
+        <div data-stagger className="mt-6 divide-y divide-line">
           {result.items.map((article) => (
             <ArticleRow key={article.id} article={article} locale={locale} t={t} />
           ))}

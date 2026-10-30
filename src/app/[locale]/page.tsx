@@ -38,7 +38,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
       <PersonJsonLd locale={locale} name={t.home.greeting} />
 
       <section className="grid gap-14 pt-12 pb-20 md:grid-cols-[minmax(0,1.3fr)_minmax(0,0.9fr)] md:items-center md:pt-20 md:pb-28">
-        <div>
+        <div data-hero>
           <p className="text-slate">
             <span className="font-medium text-ink">{t.home.greeting}</span>
             <span aria-hidden className="mx-2.5 inline-block size-1 rounded-full bg-accent align-middle" />
@@ -80,7 +80,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
 
       <section aria-labelledby="process" className="py-16">
         <SectionHeading id="process" title={t.home.processTitle} intro={t.home.processIntro} />
-        <ol className="mt-12 grid gap-10 md:grid-cols-4 md:gap-6">
+        <ol data-stagger className="mt-12 grid gap-10 md:grid-cols-4 md:gap-6">
           {t.home.process.map((step, index) => (
             <li key={step.title}>
               <div className="flex items-center gap-4">
@@ -103,7 +103,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
             title={t.home.featuredTitle}
             action={{ href: paths.projects(locale), label: t.home.allProjects }}
           />
-          <div className="mt-10 grid gap-10 sm:grid-cols-2">
+          <div data-stagger className="mt-10 grid gap-10 sm:grid-cols-2">
             {projects.items.map((project) => (
               <ProjectTile key={project.id} project={project} locale={locale} t={t} />
             ))}
@@ -118,7 +118,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
             title={t.home.latestTitle}
             action={{ href: paths.blog(locale), label: t.home.allArticles }}
           />
-          <div className="mt-6 divide-y divide-line border-y border-line">
+          <div data-stagger className="mt-6 divide-y divide-line border-y border-line">
             {articles.items.map((article) => (
               <ArticleRow key={article.id} article={article} locale={locale} t={t} />
             ))}

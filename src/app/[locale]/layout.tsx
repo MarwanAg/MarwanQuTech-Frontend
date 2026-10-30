@@ -7,6 +7,7 @@ import "@fontsource/ibm-plex-mono/500.css";
 import "../globals.css";
 
 import { GoogleAnalytics } from "@next/third-parties/google";
+import { Motion } from "@/components/motion/Motion";
 import type { Metadata, Viewport } from "next";
 import { notFound } from "next/navigation";
 import { SiteFooter } from "@/components/SiteFooter";
@@ -55,6 +56,16 @@ export default async function LocaleLayout({ children, params }: Props) {
       {/* Browser extensions (password managers, WOT, Grammarly…) add attributes to <body> before React
           loads; this only silences that attribute mismatch on <body>, not on its children. */}
       <body className="min-h-dvh antialiased" suppressHydrationWarning>
+        {/* Runs during parse: marks that JS is present (CSS then hides reveal elements), and arms a
+            failsafe that shows everything if the motion bundle never runs. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "(function(){var d=document.documentElement;d.classList.add('has-js');" +
+              "window.__motionFailsafe=setTimeout(function(){d.classList.add('motion-failed')},2500);})();",
+          }}
+        />
+        <Motion />
         <SiteHeader locale={locale} t={t} />
         <main id="content" className="mx-auto max-w-[1180px] px-5">
           {children}

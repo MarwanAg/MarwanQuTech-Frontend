@@ -159,3 +159,59 @@ h1, h2, h3, h4 {
 .hljs-comment, .hljs-quote { color: var(--slate); font-style: italic; }
 .hljs-number, .hljs-literal { color: #ebcb82; }
 .hljs-title, .hljs-type, .hljs-class .hljs-title { color: #d6b8ff; }
+
+/* ── Motion (GSAP + Lenis) ───────────────────────────────────────────────
+   Initial hidden states apply only when JS is present (.has-js). GSAP owns the reveal; if the
+   bundle never runs, the inline failsafe adds .motion-failed and everything shows. Under reduced
+   motion nothing hides. All motion is vertical only, so it can never widen the page on a phone. */
+.has-js [data-reveal],
+.has-js [data-hero] > *,
+.has-js [data-stagger] > * {
+  opacity: 0;
+  transform: translateY(18px);
+  will-change: opacity, transform;
+}
+.has-js [data-rail] {
+  transform: scaleY(0);
+  transform-origin: top;
+}
+.has-js [data-rail-dot] {
+  opacity: 0;
+  transform: scale(0.4);
+}
+
+/* Failsafe and reduced-motion: reveal without animating. */
+.motion-failed [data-reveal],
+.motion-failed [data-hero] > *,
+.motion-failed [data-stagger] > *,
+.motion-failed [data-rail-dot] {
+  opacity: 1 !important;
+  transform: none !important;
+}
+.motion-failed [data-rail] {
+  transform: scaleY(1) !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  .has-js [data-reveal],
+  .has-js [data-hero] > *,
+  .has-js [data-stagger] > *,
+  .has-js [data-rail-dot] {
+    opacity: 1;
+    transform: none;
+  }
+  .has-js [data-rail] {
+    transform: scaleY(1);
+  }
+}
+
+/* Card hover polish (desktop only; phones have no hover, so nothing shifts there). */
+@media (hover: hover) {
+  .lift {
+    transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+  }
+  .lift:hover {
+    transform: translateY(-4px);
+    border-color: color-mix(in srgb, var(--accent) 55%, transparent);
+    box-shadow: 0 24px 60px -36px rgba(1, 7, 54, 0.9);
+  }
+}

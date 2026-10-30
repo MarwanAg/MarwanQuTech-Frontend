@@ -3,7 +3,7 @@ import type { ServiceGroup } from "@/content/business";
 /** The four service groups. `detailed` also lists what each group includes. */
 export function ServiceGroupList({ groups, detailed = false }: { groups: ServiceGroup[]; detailed?: boolean }) {
   return (
-    <dl className="grid gap-x-10 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
+    <dl data-stagger className="grid gap-x-10 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
       {groups.map((group) => (
         <div key={group.key} className="border-t border-line pt-6">
           <dt className="font-display text-lg font-semibold">{group.title}</dt>

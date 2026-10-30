@@ -14,6 +14,7 @@ export function Queue({ items, locale, t }: { items: QueueItem[]; locale: Locale
   return (
     <section
       aria-labelledby="queue-title"
+      data-rail-container
       className="rounded-2xl border border-line bg-surface/70 p-6 shadow-[0_30px_80px_-40px_rgba(1,7,54,0.9)] backdrop-blur-sm sm:p-7"
     >
       <header className="flex items-baseline justify-between gap-4">
@@ -25,7 +26,7 @@ export function Queue({ items, locale, t }: { items: QueueItem[]; locale: Locale
 
       <ol className="relative mt-6">
         {/* The rail: one continuous line behind every stop, ending at the open slot. */}
-        <span aria-hidden className="absolute inset-y-3 start-[0.6875rem] w-px bg-brand" />
+        <span aria-hidden data-rail className="absolute inset-y-3 start-[0.6875rem] w-px bg-brand" />
 
         {items.length === 0 && <li className="ps-10 pb-6 text-slate">{t.home.queueEmpty}</li>}
 
@@ -38,6 +39,7 @@ export function Queue({ items, locale, t }: { items: QueueItem[]; locale: Locale
               <span className="flex justify-center pt-2">
                 <span
                   aria-hidden
+                  data-rail-dot
                   className={
                     index === 0
                       ? "signal-dot relative size-3 rounded-full bg-signal"
@@ -64,7 +66,7 @@ export function Queue({ items, locale, t }: { items: QueueItem[]; locale: Locale
             className="group mt-2 grid grid-cols-[1.375rem_1fr] gap-x-4 rounded-xl border border-dashed border-accent/50 bg-accent/5 py-3.5 pe-4 transition-colors hover:border-accent hover:bg-accent/10"
           >
             <span className="flex justify-center pt-2">
-              <span aria-hidden className="relative size-3 rounded-full border-2 border-accent bg-paper" />
+              <span aria-hidden data-rail-dot className="relative size-3 rounded-full border-2 border-accent bg-paper" />
             </span>
             <span>
               <span className="block">{t.home.queueNext}</span>

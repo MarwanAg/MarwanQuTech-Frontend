@@ -9,13 +9,13 @@ export function OfferList({ offers, locale, t }: { offers: Offer[]; locale: Loca
   const s = t.solutions;
 
   return (
-    <ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+    <ul data-stagger className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
       {offers.map((offer) => {
         const monthly = offer.priceFrom === null;
         return (
           <li
             key={offer.key}
-            className={`flex flex-col rounded-2xl border p-6 ${monthly ? "border-dashed border-accent/50 bg-accent/5" : "border-line bg-surface/50"}`}
+            className={`lift flex flex-col rounded-2xl border p-6 ${monthly ? "border-dashed border-accent/50 bg-accent/5" : "border-line bg-surface/50"}`}
           >
             <h3 className="text-lg">{offer.title}</h3>
             <p className="mt-2 text-slate">{offer.summary}</p>
