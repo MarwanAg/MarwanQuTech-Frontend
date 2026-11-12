@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { toJsonLd } from "@/lib/jsonLd";
 import { CtaBand } from "@/components/SectionHeading";
-import { about, socialLinks, type TimelineEntry } from "@/content/profile";
+import { about, socialLinks, type SkillGroup } from "@/content/profile";
 import { getDictionary } from "@/lib/dictionary";
 import { isLocale } from "@/lib/i18n";
 import { resolveLocale } from "@/lib/page";
@@ -79,8 +79,7 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
         </aside>
       </section>
 
-      {content.experience.length > 0 && <Timeline id="experience" title={t.about.experience} entries={content.experience} />}
-      {content.education.length > 0 && <Timeline id="education" title={t.about.education} entries={content.education} />}
+      {content.skills.length > 0 && <Skills title={t.about.skills} groups={content.skills} />}
 
       <CtaBand
         id="about-cta"
@@ -92,32 +91,29 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
   );
 }
 
-/** Experience and education share the queue's rail: a real sequence, newest first. */
-function Timeline({ id, title, entries }: { id: string; title: string; entries: TimelineEntry[] }) {
+/** Technical skills, grouped. Each group is a labelled set of chips. */
+function Skills({ title, groups }: { title: string; groups: SkillGroup[] }) {
   return (
-    <section aria-labelledby={id} className="py-14">
-      <h2 id={id} className="text-[1.75rem] leading-snug sm:text-[2.15rem]">
+    <section aria-labelledby="skills" className="py-14" data-reveal>
+      <h2 id="skills" className="text-[1.75rem] leading-snug sm:text-[2.15rem]">
         {title}
       </h2>
-      <ol className="relative mt-10 max-w-[760px]">
-        <span aria-hidden className="absolute inset-y-2 start-[0.4375rem] w-px bg-brand" />
-        {entries.map((entry, index) => (
-          <li key={`${entry.title}-${entry.period}`} className="relative grid grid-cols-[1rem_1fr] gap-x-6 pb-10 last:pb-0">
-            <span className="flex justify-center pt-2.5">
-              <span
-                aria-hidden
-                className={index === 0 ? "size-3 rounded-full bg-accent" : "size-2.5 rounded-full border-2 border-brand bg-paper"}
-              />
-            </span>
-            <div>
-              <p className="text-sm text-slate">{entry.period}</p>
-              <h3 className="mt-1 text-xl">{entry.title}</h3>
-              <p className="text-accent">{entry.place}</p>
-              {entry.body && <p className="mt-2 max-w-[62ch] text-slate">{entry.body}</p>}
-            </div>
-          </li>
+      <dl className="mt-10 grid gap-x-10 gap-y-9 sm:grid-cols-2">
+        {groups.map((group) => (
+          <div key={group.title} className="border-t border-line pt-5">
+            <dt className="font-display text-lg font-semibold">{group.title}</dt>
+            <dd>
+              <ul className="mt-3 flex flex-wrap gap-2">
+                {group.items.map((item) => (
+                  <li key={item} className="rounded-full border border-line bg-surface/60 px-3 py-1 text-sm text-slate" dir="auto">
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </dd>
+          </div>
         ))}
-      </ol>
+      </dl>
     </section>
   );
 }

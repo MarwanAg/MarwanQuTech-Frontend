@@ -26,7 +26,7 @@ type Labels = {
   successBody: string;
   sendAnother: string;
   summaryHeading: string;
-  summaryLabels: { problem: string; workflow: string; size: string; budget: string; timeline: string; offer: string };
+  summaryLabels: { service: string; problem: string; workflow: string; size: string; budget: string; timeline: string; offer: string };
 };
 
 export type ContactChoices = {
@@ -71,6 +71,7 @@ export function ContactForm({ language, labels, choices, preset, errors }: Props
     const text = (key: string) => String(data.get(key) ?? "").trim();
 
     const summary: [string, string][] = [
+      [labels.summaryLabels.service, labelOf(choices.services, data.get("serviceType"))],
       [labels.summaryLabels.offer, labelOf(choices.offers, data.get("offer"))],
       [labels.summaryLabels.problem, labelOf(choices.problems, data.get("problem"))],
       [labels.summaryLabels.workflow, text("workflow")],

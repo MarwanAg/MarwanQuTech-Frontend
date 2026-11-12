@@ -1,8 +1,8 @@
 import type { Locale } from "@/lib/i18n";
 
 /**
- * Everything personal on the About page lives here, so it can be edited without touching the layout.
- * Sections with an empty list are hidden on the page.
+ * Everything personal on the About page. Edit freely. The page shows the bio, the links, and the
+ * technical skills — on purpose it does not list a job or education.
  */
 
 export type SocialLink = { kind: "linkedin" | "github" | "medium"; label: string; href: string };
@@ -13,68 +13,35 @@ export const socialLinks: SocialLink[] = [
   { kind: "medium", label: "Medium", href: "https://medium.com/@inblogai2025" },
 ];
 
-/** One step on the experience / education timelines. `period` is free text, e.g. "2024 – الآن". */
-export type TimelineEntry = { title: string; place: string; period: string; body?: string };
+export type SkillGroup = { title: string; items: string[] };
 
-type Localized<T> = Record<Locale, T>;
-
-export const about: Localized<{
-  bio: string[];
-  experience: TimelineEntry[];
-  education: TimelineEntry[];
-}> = {
+export const about: Record<Locale, { bio: string[]; skills: SkillGroup[] }> = {
   ar: {
     bio: [
-      "أنا مروان أبوغزالة، مطوّر ويب متكامل من العقبة في الأردن، وخلفيتي الأكاديمية في أمن الشبكات والمعلومات.",
-      "أبني تطبيقات ويب تفاعلية وأنظمة إدارية للشركات وأصحاب المشاريع. أهتم بأن يكون الكود نظيفاً والنظام آمناً، وأن يبقى واضحاً لمن يستخدمه كل يوم.",
-      "إلى جانب البرمجة أكتب محتوى تقنياً عن تطوير البرمجيات وأدوات الذكاء الاصطناعي والإنتاجية الرقمية، وأطوّر مهاراتي باستمرار لأبني حلولاً رقمية لها أثر حقيقي.",
+      "أنا مروان أبوغزالة، مصمّم ومطوّر مواقع إلكترونية من العقبة في الأردن.",
+      "أبني المواقع التعريفية والمدونات والمتاجر الإلكترونية: سريعة، متجاوبة مع الجوال، ومهيّأة للظهور في محركات البحث.",
+      "يهمّني أن يكون الموقع واضحاً وسهل الاستخدام لزوّارك، وأن تملكه بالكامل وتقدر تطوّره لاحقاً.",
     ],
-    experience: [
-      {
-        title: "أخصائي إدخال بيانات",
-        place: "مؤسسة حكومية، العقبة",
-        period: "2025 – الآن",
-        body: "إدارة السجلات والمراسلات الرسمية، والحفاظ على دقة البيانات وسريتها.",
-      },
-      {
-        title: "ممثل خدمة عملاء",
-        place: "أمنية، العقبة",
-        period: "2024 – 2025",
-        body: "خدمة العملاء والمبيعات، وحل مشكلات الاتصال الأولية.",
-      },
-    ],
-    education: [
-      { title: "تدريب تطوير الويب المتكامل", place: "Coderz للبرمجيات والتدريب", period: "2026" },
-      { title: "أساسيات تعلّم الآلة والذكاء الاصطناعي", place: "The Hope International Company", period: "2025" },
-      { title: "دبلوم أمن الشبكات والمعلومات", place: "جامعة البلقاء التطبيقية، العقبة", period: "2021 – 2024" },
-      { title: "أساسيات تطوير الويب", place: "أكاديمية العزيمة للاستشارات والتدريب", period: "2023" },
+    skills: [
+      { title: "الواجهات الأمامية", items: ["HTML", "CSS", "JavaScript", "React", "Next.js", "تصميم متجاوب"] },
+      { title: "الخلفية وقواعد البيانات", items: ["ASP.NET Core", "C#", "PHP", "Laravel", "MySQL", "SQL Server"] },
+      { title: "المتاجر والمحتوى", items: ["متاجر إلكترونية", "لوحات تحكم", "إدارة المحتوى"] },
+      { title: "الظهور والأداء", items: ["أساسيات SEO", "تحسين السرعة", "أداء الجوال"] },
+      { title: "الأدوات", items: ["Git", "GitHub", "Visual Studio", "VS Code", "Postman"] },
     ],
   },
   en: {
     bio: [
-      "I'm Marwan AbuGhazaleh, a full-stack web developer from Aqaba, Jordan, with an academic background in network and information security.",
-      "I build interactive web applications and management systems for companies and business owners. I care about clean code and secure systems that stay clear to the people who use them every day.",
-      "Alongside development I write technical content about building software, AI tools and digital productivity, and I keep growing my skills to build digital solutions that make a real difference.",
+      "I'm Marwan AbuGhazaleh, a web designer and developer from Aqaba, Jordan.",
+      "I build portfolio sites, blogs and online stores: fast, mobile-responsive, and tuned to show up in search engines.",
+      "I care that a site is clear and easy to use for your visitors, that you own it fully, and that it can grow with you.",
     ],
-    experience: [
-      {
-        title: "Data Entry Specialist",
-        place: "Government institution, Aqaba",
-        period: "2025 – present",
-        body: "Managing official records and correspondence, keeping data accurate and confidential.",
-      },
-      {
-        title: "Customer Service Representative",
-        place: "Umniah, Aqaba",
-        period: "2024 – 2025",
-        body: "Customer service and sales, and first-line connectivity troubleshooting.",
-      },
-    ],
-    education: [
-      { title: "Full-stack web development training", place: "Coderz for Software and Training", period: "2026" },
-      { title: "Machine learning and AI fundamentals", place: "The Hope International Company", period: "2025" },
-      { title: "Diploma in Network and Information Security", place: "Al-Balqa Applied University, Aqaba", period: "2021 – 2024" },
-      { title: "Web development fundamentals", place: "Al-Azimah Academy for Consulting and Training", period: "2023" },
+    skills: [
+      { title: "Frontend", items: ["HTML", "CSS", "JavaScript", "React", "Next.js", "Responsive design"] },
+      { title: "Backend & databases", items: ["ASP.NET Core", "C#", "PHP", "Laravel", "MySQL", "SQL Server"] },
+      { title: "Stores & content", items: ["Online stores", "Dashboards", "Content management"] },
+      { title: "Visibility & performance", items: ["SEO fundamentals", "Speed optimization", "Mobile performance"] },
+      { title: "Tools", items: ["Git", "GitHub", "Visual Studio", "VS Code", "Postman"] },
     ],
   },
 };

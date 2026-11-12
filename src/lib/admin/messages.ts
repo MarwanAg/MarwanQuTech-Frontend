@@ -40,14 +40,14 @@ export function fieldErrors(error: unknown): Record<string, string> {
 }
 
 export const serviceLabels: Record<string, string> = {
-  WebDevelopment: "الحضور الرقمي",
-  ApiDevelopment: "ربط الأنظمة",
-  SystemArchitecture: "أنظمة إدارة الأعمال",
-  ProcessAutomation: "الأتمتة وتنظيم البيانات",
+  WebDevelopment: "موقع تعريفي أو Landing Page",
+  ApiDevelopment: "تطوير مخصّص",
+  SystemArchitecture: "متجر إلكتروني",
+  ProcessAutomation: "مدونة",
   Consulting: "استشارة أولية",
-  Maintenance: "الصيانة والدعم التقني",
+  Maintenance: "صيانة وإعادة تصميم",
   Other: "أخرى",
-};
+}
 
 export function formatDateTime(iso: string | null | undefined) {
   if (!iso) return "—";
