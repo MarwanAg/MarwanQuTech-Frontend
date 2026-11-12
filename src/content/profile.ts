@@ -5,12 +5,13 @@ import type { Locale } from "@/lib/i18n";
  * technical skills — on purpose it does not list a job or education.
  */
 
-export type SocialLink = { kind: "linkedin" | "github" | "medium"; label: string; href: string };
+export type SocialLink = { kind: "linkedin" | "github" | "medium" | "instagram"; label: string; href: string };
 
 export const socialLinks: SocialLink[] = [
   { kind: "linkedin", label: "LinkedIn", href: "https://www.linkedin.com/in/marwan-abughazaleh-494197262/" },
   { kind: "github", label: "GitHub", href: "https://github.com/MarwanAg" },
   { kind: "medium", label: "Medium", href: "https://medium.com/@inblogai2025" },
+  { kind: "instagram", label: "Instagram", href: "https://www.instagram.com/marwanqutech/" },
 ];
 
 export type SkillGroup = { title: string; items: string[] };
